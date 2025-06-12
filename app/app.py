@@ -1,19 +1,25 @@
 import streamlit as st
 import joblib
+import os
 
-# Load vectorizer and model
-vectorizer = joblib.load('model/tfidf_vectorizer.pkl')
-model = joblib.load('model/logistic_model.pkl')
+# Load model and vectorizer once
+model_path = os.path.join(os.getcwd(), "app", "logistic_model.pkl")
+vectorizer_path = os.path.join(os.getcwd(), "app", "tfidf_vectorizer.pkl")
+
+model = joblib.load(model_path)
+vectorizer = joblib.load(vectorizer_path)
 
 st.title("Twitter Sentiment Analysis")
 
-user_input = st.text_area("Enter text to analyze sentiment:")
+user_input = st.text_area("Enter your tweet or sentence here:")
 
 if st.button("Predict Sentiment"):
     if user_input.strip() == "":
-        st.warning("Please enter some text!")
+        st.warning("Please enter some text to analyze.")
     else:
+        # Transform the input text
         X = vectorizer.transform([user_input])
-        prediction = model.predict(X)
-        sentiment = "Positive 😊" if prediction[0] == 1 else "Negative 😞"
-        st.success(f"Predicted sentiment: {sentiment}")
+        prediction = model.predict(X)[0]
+
+        sentiment = "Positive" if prediction == 1 else "Negative"
+        st.write(f"Predicted sentiment: **{sentiment}**")
