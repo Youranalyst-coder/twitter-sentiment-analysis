@@ -1,1 +1,7 @@
-
+text,sentiment
+"I love flying with this airline!",positive
+"This is the worst service ever",negative
+"I had a neutral experience",neutral
+"The flight was delayed and staff were rude",negative
+"Amazing in-flight entertainment and service",positive
+"Nothing special, just an average flight",neutral
