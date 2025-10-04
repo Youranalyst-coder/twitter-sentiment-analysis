@@ -1,138 +1,137 @@
-# 💼 Deloitte-Ready Twitter Sentiment Intelligence
+💼 Deloitte-Ready Twitter Sentiment Intelligence
 
-A production-grade sentiment analysis accelerator designed to showcase the end-to-end delivery skills expected from a Deloitte India Oracle Analyst. The solution covers data ingestion, preprocessing, model training, governance, deployment readiness, and professional storytelling while retaining the lightweight learning experience from the original project.
+A production-grade sentiment analysis accelerator designed to showcase the end-to-end delivery skills expected from a Deloitte India Oracle Analyst.
+The solution spans data ingestion, preprocessing, model training, governance, deployment readiness, and business storytelling — all within a lightweight, reproducible ML pipeline.
 
-## 🧰 Technology stack & analytics capabilities
+🧰 Technology Stack & Analytics Capabilities
 
-- Python, Pandas, Scikit-learn, and NLTK for rapid experimentation and production-ready sentiment pipelines.
-- TF-IDF vectorization paired with multiclass logistic regression for explainable predictions across positive, neutral, and negative classes.
-- Streamlit web UI (`app/app.py`) that surfaces class probabilities and narrative insights for stakeholders.
-- Notebook-driven exploration (`notebooks/`) to trace the lineage of the trained pipeline and retrain artefacts when required.
+Python, Pandas, Scikit-learn, NLTK – rapid experimentation & production-ready sentiment pipelines
 
+TF-IDF Vectorization + Multiclass Logistic Regression – explainable predictions across positive, neutral, negative classes
 
-## 🧭 Why this project stands out
+Streamlit UI (app/app.py) – displays class probabilities & narrative insights for stakeholders
 
-- **Oracle ecosystem alignment** – configurable ingestion from Oracle Autonomous Database, OCI deployment guide, and analytics workflows tailored for enterprise reporting.
-- **Consulting-grade engineering** – modular Python package, logging, configuration management, and CI/CD automation.
-- **Business storytelling** – dashboards, metrics, and documentation that translate technical outcomes into measurable value for stakeholders.
+Notebook-driven exploration (notebooks/) – retraining lineage and model interpretability
 
-## 🔗 Live resources & quick links
+Container-ready CI/CD pipeline – automates tests, linting, and retraining
 
-| Asset | Purpose | Link |
-| --- | --- | --- |
-| **Live Streamlit demo** | Shareable dashboard URL for interviews (update after deployment) | [`https://<your-app>.streamlit.app`](https://<your-app>.streamlit.app) |
-| **Architecture blueprint** | Deep dive on data, model, and DevOps layers | [`docs/architecture.md`](docs/architecture.md) |
-| **OCI deployment playbook** | Container-first rollout with Oracle services | [`deployment/oracle_cloud.md`](deployment/oracle_cloud.md) |
-| **Streamlit Community Cloud guide** | Launch a public URL in minutes | [`deployment/streamlit_cloud.md`](deployment/streamlit_cloud.md) |
-| **Vercel redirect playbook** | Turn your Vercel domain into a Streamlit launcher | [`deployment/vercel_redirect.md`](deployment/vercel_redirect.md) |
-| **GitHub connection & live check** | Step-by-step repo linking plus URL validation | [`deployment/github_live_validation.md`](deployment/github_live_validation.md) |
-| **Training data sample** | Jump-start retraining conversations | [`data/twitter_training.csv`](data/twitter_training.csv) |
+🧭 Why This Project Stands Out
 
-> ✅ Once you publish the Streamlit app, replace the placeholder domain above. The link will then be accessible from any device (mobile, tablet, or laptop) and can be embedded directly in your resume or interview slides.
+Oracle ecosystem alignment – optional ingestion from Oracle Autonomous Database with OCI deployment playbooks
 
-## 🏗️ Architecture overview
+Consulting-grade engineering – modular Python package, logging, configuration management, GitHub Actions CI
 
-```mermaid
+Business storytelling – dashboards, KPIs, and executive-friendly insights translating data into measurable ROI
+
+🔗 Live Resources & Quick Links
+Asset	Purpose	Link
+Live Streamlit Demo	Interview-ready interactive dashboard	https://<your-app>.streamlit.app
+
+Architecture Blueprint	Deep dive on data, model & DevOps layers	docs/architecture.md
+
+OCI Deployment Playbook	Containerized rollout on Oracle Cloud	deployment/oracle_cloud.md
+
+Streamlit Cloud Guide	Launch public URL in minutes	deployment/streamlit_cloud.md
+
+Vercel Redirect Playbook	Vanity domain / QR-friendly link	deployment/vercel_redirect.md
+
+GitHub Live Validation	Verify live deployment health	deployment/github_live_validation.md
+
+Training Data Sample	Quick-start dataset for retraining	data/twitter_training.csv
+
+✅ After publishing, replace the placeholder URL above and embed it directly in your resume / interview slides.
+
+🏗️ Architecture Overview
 flowchart LR
-    subgraph Data Layer
+    subgraph Data_Layer
         A[Oracle Autonomous DB] -- optional --> B[(CSV Data)]
     end
-    subgraph Processing Layer
+    subgraph Processing_Layer
         B --> C[Data Loader]
         C --> D[Text Preprocessor]
         D --> E[Scikit-learn Pipeline]
         E --> F[Model Metrics]
     end
-    subgraph Experience Layer
+    subgraph Experience_Layer
         E --> G[Streamlit Dashboard]
         E --> H[CLI Automation]
         F --> G
         F --> I[Reporting / GitHub Pages]
     end
-    subgraph DevOps Layer
+    subgraph DevOps_Layer
         J[GitHub Actions CI]
         J --> E
         J --> G
     end
-```
 
-## 📁 Repository structure
-
-| Path | Description |
-| --- | --- |
-| `app/` | Streamlit application for stakeholder demos |
-| `artifacts/` | Generated model artifacts (gitignored; create via `scripts/train.py` before first run) |
-| `config/` | Centralised YAML configuration controlling ingestion, preprocessing, and deployment toggles (stored in JSON-compatible YAML for portability) |
-| `data/` | Sample labelled tweets for local experimentation |
-| `deployment/` | Cloud deployment runbooks (Oracle Cloud Infrastructure, Azure, AWS) |
-| `docs/` | Architecture diagrams, KPI catalogue, and interview collateral |
-| `scripts/` | Automation scripts for training and inference |
-| `src/twitter_sentiment/` | Reusable Python package powering the pipeline |
-| `tests/` | Pytest-based unit tests covering preprocessing and inference |
-| `.github/workflows/` | CI workflow executing tests and lightweight linting |
-
-## 🚀 Quick start
-
-```bash
-# 1. Create a virtual environment (recommended)
+📁 Repository Structure
+Path	Description
+app/	Streamlit app for demos
+artifacts/	Generated model artifacts (gitignored; created via scripts/train.py)
+config/	Central YAML settings controlling ingestion & deployment toggles
+data/	Sample labelled tweets
+deployment/	Multi-cloud deployment guides
+docs/	Architecture diagrams & KPI catalogue
+scripts/	Automation scripts for training & inference
+src/twitter_sentiment/	Core reusable Python package
+tests/	Pytest-based unit tests
+.github/workflows/	CI pipeline (lint + tests)
+🚀 Quick Start
+# 1️⃣  Create virtual environment
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-# 2. Install dependencies
+# 2️⃣  Install dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# 3. Train the pipeline to generate fresh artifacts
+# 3️⃣  Train pipeline & generate artifacts
 python scripts/train.py
 
-# 4. Launch the Deloitte storytelling dashboard
+# 4️⃣  Launch Deloitte Storytelling Dashboard
 streamlit run app/app.py
-```
 
-> **Note:** Model artifacts are deliberately excluded from source control. Run `python scripts/train.py` (or `make train`) any time you clone the repo or reset the workspace so that `artifacts/sentiment_pipeline.joblib` is available for the app, CLI, and tests.
 
-Prefer a lightweight launch without the Deloitte extensions? Deploy the original Streamlit interface directly via `streamlit run app/app.py` or reuse the serialized pipeline from the `artifacts/` directory once generated.
+Note: Artifacts are excluded from source control.
+Run python scripts/train.py whenever cloning the repo to recreate artifacts/sentiment_pipeline.joblib.
 
-## 🧪 Quality gates
+🧪 Quality Gates
+Check	Command
+Unit tests	pytest -q
+Package compile check	python -m compileall src
+Model retrain	python scripts/train.py
 
-| Check | Command |
-| --- | --- |
-| Unit tests | `pytest -q` |
-| Package sanity | `python -m compileall src` |
-| Model retrain | `python scripts/train.py` |
+CI runs automatically on every push or PR to main.
 
-GitHub Actions automatically executes tests and sanity checks on every push / PR against `main`.
+🧩 Feature Highlights
 
-## 🧩 Feature highlights
+Config-driven ingestion switch (CSV ⇄ Oracle DB)
 
-- Config-driven ingestion toggling between CSV and Oracle Autonomous Database.
-- Reusable preprocessing component with whitespace, URL, mention, and punctuation handling.
-- Scikit-learn pipeline persisted with evaluation metrics for auditability.
-- Streamlit dashboard with business-friendly narrative, download-ready metrics, and governance tab.
-- CLI utilities for automation workflows (`scripts/train.py`, `scripts/predict.py`).
-- Unit tests and CI pipeline to demonstrate engineering rigor.
+Reusable text-cleaning module (URL, mention, punctuation handling)
 
-## ☁️ Deploy to the cloud
+Auditable Scikit-learn pipeline with persisted metrics
 
-A detailed, step-by-step OCI deployment guide lives at [`deployment/oracle_cloud.md`](deployment/oracle_cloud.md). Highlights include:
+Streamlit dashboard → probabilities + governance tab
 
-1. Containerising the Streamlit app with OCI Container Instances.
-2. Automating retraining via OCI Data Science jobs or GitHub Actions.
-3. Wiring up Autonomous Database sources using wallet-based connectivity.
+CLI utilities for automated workflows
 
-Need a fast public URL you can open from any phone? Follow the Streamlit Community Cloud steps in [`deployment/streamlit_cloud.md`](deployment/streamlit_cloud.md) and drop the generated link into the **Live resources** table above.
+Pytest suite + GitHub Actions CI/CD
 
-Once your link is live, update `live_app.streamlit_url` in [`config/settings.yaml`](config/settings.yaml) and run `make verify-live` (or invoke [`scripts/check_live_app.py`](scripts/check_live_app.py)) with no arguments. The command now reads the config value and confirms the dashboard responds with `200 OK` before interviews.
+☁️ Cloud Deployment
 
-Need a vanity Vercel link for QR codes? Generate the redirect HTML via [`scripts/update_vercel_redirect.py`](scripts/update_vercel_redirect.py) and follow [`deployment/vercel_redirect.md`](deployment/vercel_redirect.md) to publish it.
+See deployment/oracle_cloud.md
+ for the Oracle Cloud Infrastructure (OCI) guide:
 
-Additional notes for Azure Web Apps and AWS App Runner are provided for multi-cloud discussions.
+Containerize Streamlit app using OCI Container Instances
 
-## 🗃️ Oracle database integration
+Automate retraining via OCI Data Science jobs / GitHub Actions
 
-Update [`config/settings.yaml`](config/settings.yaml) to toggle `oracle_integration.enabled` and supply wallet credentials. The data loader will then pull training data directly from the Autonomous Database using `oracledb`.
+Connect to Autonomous DB with wallet credentials
 
-```yaml
+Or follow deployment/streamlit_cloud.md
+ for a free Streamlit Cloud public link—perfect for interviews.
+
+🗃️ Oracle Database Integration (Optional)
 oracle_integration:
   enabled: true
   wallet_location: /path/to/wallet
@@ -142,40 +141,45 @@ oracle_integration:
     SELECT text, sentiment
     FROM analytics.twitter_training_data
     WHERE created_at >= SYSDATE - 30
-```
 
-## 📊 Storytelling in interviews
+📊 Storytelling in Interviews
 
-1. **Business impact** – emphasise how proactive sentiment tracking improves customer retention and campaign ROI.
-2. **Oracle expertise** – discuss wallet-based connectivity, SQL data modelling, and how OCI services plug into the pipeline.
-3. **Engineering excellence** – highlight modular package design, automated tests, and CI/CD.
-4. **Consulting mindset** – walk through the Streamlit dashboard as an executive-ready deliverable with actionable insights.
+Business Impact – sentiment tracking → improved ROI & retention
 
-## 📦 Publishing on GitHub
+Oracle Expertise – wallet connectivity, SQL modeling, OCI integration
 
-- Use feature branches for enhancements (`feature/oracle-ingestion`, `chore/ci-updates`).
-- Raise Pull Requests with CI status checks and screenshots of the Streamlit UI.
-- Leverage GitHub Projects to track backlog items (e.g., drift monitoring, Oracle APEX reporting).
-- Tag releases (e.g., `v1.0.0`) once the model is retrained and deployment is live.
+Engineering Rigor – modular design, testing, CI/CD
 
-## 📣 Share the live demo
+Consulting Mindset – executive-ready Streamlit deliverable
 
-- Deploy the Streamlit container to OCI or Streamlit Community Cloud.
-- Capture dashboard screenshots (`docs/screenshots/`) for the README and interview slide deck.
-- Prepare a 3-minute walkthrough focusing on client scenario, data sources, and automation roadmap.
+📦 GitHub Best Practices
 
-## 🤝 Contributing
+Use feature branches (e.g., feature/oracle-ingestion)
 
-Pull requests are welcome! Please open an issue describing the proposed enhancement or bug fix before submitting large changes.
+Raise PRs with CI status + screenshots
 
----
+Track backlog via GitHub Projects
 
-Made with consulting rigour to help you shine in the Deloitte India Oracle Analyst interview.
+Tag releases (e.g., v1.0.0) post-deployment
 
-## 🧠 Training artifacts
+🧠 Training Artifacts
 
-This repository intentionally keeps generated artifacts out of Git history, but once you run the training script you will find the following in `artifacts/` (formerly committed under `app/`):
+Generated after running scripts/train.py:
 
-- `sentiment_pipeline.joblib` – end-to-end Scikit-learn pipeline containing TF-IDF vectorizer and logistic regression classifier.
+sentiment_pipeline.joblib – Full TF-IDF + Logistic Regression pipeline
 
-Legacy artifacts (`app/logistic_model.pkl`, `app/tfidf_vectorizer.pkl`, `sentiment_model.pkl`) produced by the original notebook are still compatible with the refreshed Streamlit UI. Regenerate them via the notebooks in `notebooks/` if you need backwards-compatible demos or comparisons.
+Legacy (compatible) files:
+
+app/logistic_model.pkl
+
+app/tfidf_vectorizer.pkl
+
+sentiment_model.pkl
+
+Use these for quick demos or backward comparisons.
+
+🤝 Contributing
+
+Pull requests welcome!
+Please open an issue describing any enhancement or bugfix before major changes.
+ 
