@@ -1,59 +1,19 @@
-{
-  "project": {
-    "name": "Twitter Sentiment Analysis",
-    "description": "End-to-end sentiment analysis workflow aligned with Deloitte India Oracle Analyst capabilities.",
-    "author": "Your Name"
-  },
-  "live_app": {
-    "streamlit_url": "https://<your-app>.streamlit.app",
-    "vercel_redirect_domain": "https://<your-project>.vercel.app"
-  },
-  "data": {
-    "path": "data/twitter.csv",
-    "text_column": "text",
-    "target_column": "sentiment",
-    "class_order": ["negative", "neutral", "positive"]
-  },
-  "preprocessing": {
-    "lowercase": true,
-    "strip_urls": true,
-    "strip_mentions": true,
-    "strip_hashtags": false,
-    "remove_punctuation": true,
-    "normalize_whitespace": true,
-    "stemming": false,
-    "lemmatize": false
-  },
-  "model": {
-    "artifact_dir": "artifacts",
-    "pipeline_filename": "sentiment_pipeline.joblib",
-    "vectorizer_filename": "tfidf_vectorizer.joblib",
-    "model_filename": "logistic_model.joblib",
-    "test_size": 0.2,
-    "random_state": 42,
-    "max_features": 5000,
-    "ngram_range": [1, 2],
-    "class_weight": "balanced"
-  },
-  "training": {
-    "cv_folds": 5,
-    "scoring": "f1_macro",
-    "n_jobs": -1,
-    "verbose": 1,
-    "probability_thresholds": {
-      "positive": 0.55,
-      "negative": 0.45
-    }
-  },
-  "monitoring": {
-    "enable_model_drift_checks": true,
-    "psi_threshold": 0.2
-  },
-  "oracle_integration": {
-    "enabled": false,
-    "wallet_location": "~/.oci/wallet",
-    "user": "",
-    "dsn": "",
-    "sql_query": "SELECT text, sentiment FROM twitter_training_data"
-  }
-}
+data:
+  train_path: data/twitter.csv
+  text_column: text
+  target_column: sentiment
+  class_order: [negative, neutral, positive]
+
+model:
+  artifact_dir: artifacts
+  pipeline_filename: sentiment_pipeline.joblib
+  test_size: 0.2
+  random_state: 42
+  max_features: 5000
+  ngram_range: [1, 2]
+  class_weight: balanced
+
+training:
+  cv_folds: 5
+  scoring: f1_macro
+
