@@ -1,11 +1,6 @@
 .venv/
 __pycache__/
-*.pyc
-artifacts/metrics.json
-artifacts/*.log
-artifacts/*.joblib
-artifacts/*.pkl
-logistic_model.pkl
+.pyc
 model
 .env
 .DS_Store
