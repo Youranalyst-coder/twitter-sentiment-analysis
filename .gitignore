@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+artifacts/metrics.json
+artifacts/*.log
+artifacts/*.joblib
+artifacts/*.pkl
+logistic_model.pkl
+model
+.env
+.DS_Store
+.ipynb_checkpoints/
