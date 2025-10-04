@@ -1,6 +1,4 @@
 💼 Twitter Sentiment Intelligence
-
-A production-grade sentiment analysis accelerator designed to showcase the end-to-end delivery skills expected from a Deloitte India Oracle Analyst.
 The solution spans data ingestion, preprocessing, model training, governance, deployment readiness, and business storytelling — all within a lightweight, reproducible ML pipeline.
 
 🧰 Technology Stack & Analytics Capabilities
