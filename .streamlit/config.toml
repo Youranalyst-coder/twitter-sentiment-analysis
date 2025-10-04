@@ -1,0 +1,14 @@
+[server]
+# Run Streamlit in headless mode on port 8501 (Cloud / container friendly)
+headless = true
+port = 8501
+
+# Disable the developer auto-reloader / file watcher to avoid hitting inotify limits
+runOnSave = false
+
+# Production-friendly defaults
+enableCORS = false
+
+# Optional: if your Streamlit version supports it you can set the watcher type.
+# Uncomment only if supported by your Streamlit version:
+# fileWatcherType = "none"
