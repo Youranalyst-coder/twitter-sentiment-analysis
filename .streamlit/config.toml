@@ -11,4 +11,4 @@ enableCORS = false
 
 # Optional: if your Streamlit version supports it you can set the watcher type.
 # Uncomment only if supported by your Streamlit version:
-# fileWatcherType = "none"
+fileWatcherType = "none"
