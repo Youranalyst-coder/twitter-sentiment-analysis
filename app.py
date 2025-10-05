@@ -27,18 +27,20 @@ try:
     if str(SRC_PATH) not in sys.path:
         sys.path.insert(0, str(SRC_PATH))
 
-    # Import from src/twitter_sentiment/
+    # ✅ Updated imports to use lightweight remote model loader
     from twitter_sentiment.config import load_config
-    from twitter_sentiment.predictor import load_artifacts, predict_with_threshold
+    from twitter_sentiment.model_loader import get_model
+    from twitter_sentiment.predictor import predict_with_threshold
 
     # -------------------------------------------------------------------------
-    # Cached dependencies
+    # Cached dependencies (✅ lightweight version)
     # -------------------------------------------------------------------------
     @st.cache_resource(show_spinner=False)
     def _load_dependencies():
-        """Load configuration, trained pipeline, and metrics from artifacts."""
+        """Load configuration and lightweight remote model."""
         config = load_config()
-        pipeline, metrics = load_artifacts(config)
+        pipeline = get_model()
+        metrics = {}  # Placeholder (not bundled to reduce size)
         return config, pipeline, metrics
 
     # -------------------------------------------------------------------------
@@ -62,12 +64,17 @@ try:
         # ---------------------- Sidebar ----------------------
         with st.sidebar:
             st.header("📊 Model Snapshot")
-            st.write("**Classes:**", ", ".join(pipeline.classes_))
+            if hasattr(pipeline, "classes_"):
+                st.write("**Classes:**", ", ".join(pipeline.classes_))
+            else:
+                st.write("**Model:** Loaded remotely")
+
             if metrics:
                 st.metric("Macro F1", f"{metrics.get('f1_macro', 0.0):.2f}")
                 st.metric("Accuracy", f"{metrics.get('accuracy', 0.0):.2f}")
             else:
-                st.info("Run `python scripts/train.py` to generate metrics.")
+                st.info("Run training locally to generate metrics (`scripts/train.py`).")
+
             st.download_button(
                 label="⬇️ Download Metrics JSON",
                 data=json.dumps(metrics or {}, indent=2).encode("utf-8"),
@@ -75,7 +82,7 @@ try:
                 mime="application/json",
             )
             st.info(
-                "🚀 Tip: integrate Oracle Autonomous Database by updating `config/settings.yaml`."
+                "🚀 Tip: Integrate Oracle Autonomous Database by updating `config/settings.yaml`."
             )
 
         # ---------------------- Tabs ----------------------
@@ -103,7 +110,7 @@ try:
                 )
                 st.dataframe(metrics_df, use_container_width=True)
             else:
-                st.info("Metrics will appear after the first training run (see `scripts/train.py`).")
+                st.info("Metrics will appear after local training run (see `scripts/train.py`).")
 
         # ---------------------- Footer ----------------------
         st.markdown("---")
