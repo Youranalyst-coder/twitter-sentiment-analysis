@@ -2,7 +2,7 @@ import os
 import joblib
 import urllib.request
 
-# ⚙️ Public raw URL of your uploaded model on GitHub
+# ✅ Direct raw GitHub link (must return a real .joblib file)
 MODEL_URL = "https://raw.githubusercontent.com/Youranalyst-coder/twitter-sentiment-analysis/main/artifacts/sentiment_pipeline.joblib"
 MODEL_PATH = "artifacts/sentiment_pipeline.joblib"
 
