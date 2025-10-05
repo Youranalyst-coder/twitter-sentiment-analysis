@@ -20,13 +20,14 @@ st.caption("Streamlit front-end for the Deloitte-ready Twitter Sentiment Intelli
 
 try:
     # -------------------------------------------------------------------------
-    # Path setup
+    # Path setup (✅ Fixed for root-level app.py)
     # -------------------------------------------------------------------------
-    ROOT = Path(__file__).resolve().parents[1]
+    ROOT = Path(__file__).resolve().parents[0]
     SRC_PATH = ROOT / "src"
     if str(SRC_PATH) not in sys.path:
         sys.path.insert(0, str(SRC_PATH))
 
+    # Import from src/twitter_sentiment/
     from twitter_sentiment.config import load_config
     from twitter_sentiment.predictor import load_artifacts, predict_with_threshold
 
