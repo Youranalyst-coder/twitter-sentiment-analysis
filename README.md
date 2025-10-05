@@ -38,6 +38,5 @@ It integrates a trained machine-learning pipeline to classify tweets as **Positi
 
 ---
 
-## 📂 Project Structure
 
  
