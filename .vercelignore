@@ -1,0 +1,8 @@
+.venv/
+artifacts/
+__pycache__/
+data/
+notebooks/
+docs/
+config/
+tests/
