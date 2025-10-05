@@ -5,6 +5,8 @@ from pathlib import Path
 from typing import Dict
 import pandas as pd
 import streamlit as st
+from huggingface_hub import hf_hub_download
+import joblib
 
 # -------------------------------------------------------------------------
 # Page Configuration
@@ -20,34 +22,33 @@ st.caption("Streamlit front-end for the Deloitte-ready Twitter Sentiment Intelli
 
 try:
     # -------------------------------------------------------------------------
-    # Path setup (✅ Fixed for root-level app.py)
+    # Download model from Hugging Face Hub (no local artifacts needed)
     # -------------------------------------------------------------------------
-    ROOT = Path(__file__).resolve().parents[0]
-    SRC_PATH = ROOT / "src"
-    if str(SRC_PATH) not in sys.path:
-        sys.path.insert(0, str(SRC_PATH))
+    MODEL_REPO = "vishnu-coder/twitter-sentiment-model"
+    MODEL_FILENAME = "sentiment_pipeline.joblib"
 
-    # ✅ Updated imports to use lightweight remote model loader
-    from twitter_sentiment.config import load_config
-    from twitter_sentiment.model_loader import get_model
-    from twitter_sentiment.predictor import predict_with_threshold
-
-    # -------------------------------------------------------------------------
-    # Cached dependencies (✅ lightweight version)
-    # -------------------------------------------------------------------------
     @st.cache_resource(show_spinner=False)
-    def _load_dependencies():
-        """Load configuration and lightweight remote model."""
-        config = load_config()
-        pipeline = get_model()
-        metrics = {}  # Placeholder (not bundled to reduce size)
-        return config, pipeline, metrics
+    def load_model():
+        """Download and load the trained model from Hugging Face Hub."""
+        model_path = hf_hub_download(repo_id=MODEL_REPO, filename=MODEL_FILENAME)
+        pipeline = joblib.load(model_path)
+        return pipeline
+
+    pipeline = load_model()
 
     # -------------------------------------------------------------------------
-    # Format probabilities helper
+    # Helper function for predictions
     # -------------------------------------------------------------------------
+    def predict_sentiment(text: str) -> tuple[str, Dict[str, float]]:
+        """Predict sentiment and confidence scores."""
+        probs = pipeline.predict_proba([text])[0]
+        classes = pipeline.classes_
+        label = classes[probs.argmax()]
+        probabilities = dict(zip(classes, probs))
+        return label, probabilities
+
     def format_probabilities(probabilities: Dict[str, float]) -> pd.DataFrame:
-        """Convert prediction probabilities to a styled DataFrame for display."""
+        """Convert probabilities to styled DataFrame."""
         return (
             pd.DataFrame.from_dict(probabilities, orient="index", columns=["confidence"])
             .sort_values("confidence", ascending=False)
@@ -55,70 +56,27 @@ try:
         )
 
     # -------------------------------------------------------------------------
-    # Main Streamlit Application
+    # Streamlit UI
     # -------------------------------------------------------------------------
-    def main() -> None:
-        """Render the Deloitte-ready Twitter Sentiment Intelligence Dashboard."""
-        config, pipeline, metrics = _load_dependencies()
+    def main():
+        st.sidebar.header("📊 Model Snapshot")
+        st.sidebar.write("**Source:**", MODEL_REPO)
+        st.sidebar.success("✅ Loaded model from Hugging Face Hub")
 
-        # ---------------------- Sidebar ----------------------
-        with st.sidebar:
-            st.header("📊 Model Snapshot")
-            if hasattr(pipeline, "classes_"):
-                st.write("**Classes:**", ", ".join(pipeline.classes_))
+        st.subheader("🔮 Real-Time Sentiment Analysis")
+        user_input = st.text_area("Enter a tweet or comment:", height=150)
+
+        if st.button("Analyze", type="primary"):
+            if not user_input.strip():
+                st.warning("⚠️ Please enter text to analyze.")
             else:
-                st.write("**Model:** Loaded remotely")
+                label, probabilities = predict_sentiment(user_input)
+                st.success(f"Predicted Sentiment: **{label.title()}**")
+                st.dataframe(format_probabilities(probabilities), use_container_width=True)
 
-            if metrics:
-                st.metric("Macro F1", f"{metrics.get('f1_macro', 0.0):.2f}")
-                st.metric("Accuracy", f"{metrics.get('accuracy', 0.0):.2f}")
-            else:
-                st.info("Run training locally to generate metrics (`scripts/train.py`).")
-
-            st.download_button(
-                label="⬇️ Download Metrics JSON",
-                data=json.dumps(metrics or {}, indent=2).encode("utf-8"),
-                file_name="metrics.json",
-                mime="application/json",
-            )
-            st.info(
-                "🚀 Tip: Integrate Oracle Autonomous Database by updating `config/settings.yaml`."
-            )
-
-        # ---------------------- Tabs ----------------------
-        tab_predict, tab_metrics = st.tabs(["🔮 Predict", "⚙️ Model Governance"])
-
-        # ---------------------- Prediction Tab ----------------------
-        with tab_predict:
-            st.subheader("Real-Time Sentiment Assessment")
-            user_input = st.text_area("Enter a tweet or customer comment:", height=150)
-            if st.button("Run Analysis", type="primary"):
-                if not user_input.strip():
-                    st.warning("⚠️ Please enter text to analyse.")
-                else:
-                    label, probabilities = predict_with_threshold(user_input, config)
-                    st.success(f"Predicted Sentiment: **{label.title()}**")
-                    st.dataframe(format_probabilities(probabilities), use_container_width=True)
-
-        # ---------------------- Metrics Tab ----------------------
-        with tab_metrics:
-            st.subheader("Operational Metrics")
-            if metrics:
-                metrics_df = (
-                    pd.DataFrame(metrics, index=["score"])
-                    .T.rename(columns={"score": "value"})
-                )
-                st.dataframe(metrics_df, use_container_width=True)
-            else:
-                st.info("Metrics will appear after local training run (see `scripts/train.py`).")
-
-        # ---------------------- Footer ----------------------
         st.markdown("---")
         st.caption("© 2025 Deloitte-aligned Sentiment Analytics Accelerator")
 
-    # -------------------------------------------------------------------------
-    # Entry Point
-    # -------------------------------------------------------------------------
     if __name__ == "__main__":
         main()
 
